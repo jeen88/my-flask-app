@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    
+    .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 500px;
+        }
+    input, select {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    button {
+            width: 100%;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    button:hover {
+            background-color: #0056b3;
+        }
+    .results {
+            background-color: #e9f7ef;
+            padding: 15px;
+            border: 1px solid #d4edda;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+    </style>
+    <div class="container">
+    <h1>Model1 Calculator</h1>
+    <form method="post">
+        <label>Age:</label>
+        <input type="number" name="age" value="{{ age }}" required><br>
+
+        <label>Gender:</label>
+        <select name="gender" required>
+            <option value="Female" {% if gender == 'Female' %}selected{% endif %}>Female</option>
+            <option value="Male" {% if gender == 'Male' %}selected{% endif %}>Male</option>
+            <option value="Transgender" {% if gender == 'Transgender' %}selected{% endif %}>Transgender</option>
+        </select><br>
+
+        <label>District:</label>
+        <select name="district" required>
+            {% for d in districts %}
+            <option value="{{ d }}" {% if d == district %}selected{% endif %}>{{ d }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label>Bank details:</label>
+        <select name="bank" required>
+            <option value="Available" {% if bank == 'Available' %}selected{% endif %}>Available</option>
+            <option value="Not available" {% if bank == 'Not available' %}selected{% endif %}>Not available</option>
+        </select><br>
+
+        <label>Microbiological confirmation:</label>
+        <select name="microbio" required>
+            <option value="No" {% if microbio == 'No' %}selected{% endif %}>No</option>
+            <option value="Yes" {% if microbio == 'Yes' %}selected{% endif %}>Yes</option>
+        </select><br>
+
+        <label>Site of TB:</label>
+        <select name="site" required>
+            <option value="Pulmonary" {% if site == 'Pulmonary' %}selected{% endif %}>Pulmonary</option>
+            <option value="Extrapulmonary" {% if site == 'Extrapulmonary' %}selected{% endif %}>Extrapulmonary</option>
+            <option value="Missing" {% if site == 'Missing' %}selected{% endif %}>Missing</option>
+        </select><br>
+
+        <label>Previous TB Treatment:</label>
+        <select name="prev_tb" required>
+            <option value="No" {% if prev_tb == 'No' %}selected{% endif %}>No</option>
+            <option value="Yes" {% if prev_tb == 'Yes' %}selected{% endif %}>Yes</option>
+        </select><br>
+
+        <label>HIV Status:</label>
+        <select name="hiv" required>
+            <option value="Negative" {% if hiv == 'Negative' %}selected{% endif %}>Negative</option>
+            <option value="Unknown" {% if hiv == 'Unknown' %}selected{% endif %}>Unknown</option>
+            <option value="Positive" {% if hiv == 'Positive' %}selected{% endif %}>Positive</option>
+        </select><br>
+
+        <label>Level of diagnosing facility:</label>
+        <select name="facility" required>
+            <option value="Primary" {% if facility == 'Primary' %}selected{% endif %}>Primary</option>
+            <option value="Secondary" {% if facility == 'Secondary' %}selected{% endif %}>Secondary</option>
+            <option value="Tertiary" {% if facility == 'Tertiary' %}selected{% endif %}>Tertiary</option>
+            <option value="Missing" {% if facility == 'Missing' %}selected{% endif %}>Missing</option>
+        </select><br>
+
+        <label>Diabetes status:</label>
+        <select name="diabetes" required>
+            <option value="Negative" {% if diabetes == 'Negative' %}selected{% endif %}>Negative</option>
+            <option value="Unknown" {% if diabetes == 'Unknown' %}selected{% endif %}>Unknown</option>
+            <option value="Positive" {% if diabetes == 'Positive' %}selected{% endif %}>Positive</option>
+        </select><br>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if result is not none %}
+    <div class="results">  
+    <h3>Results</h3>
+    <p><strong>Early Death Probability:</strong> {{ result_early }}%</p>
+    <p><strong>Overall Death Probability:</strong> {{ result_overall }}%</p>
+    <p><strong>Early Death with LTFU Probability:</strong> {{ result_ltfu }}%</p>
+    <p><strong>Overall Death with LTFU Probability:</strong> {{ result_overall_ltfu }}%</p>
+    </div> 
+</div>
+    {% endif %}
+{% endblock %}

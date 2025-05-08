@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    
+    .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 500px;
+        }
+    input, select {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    button {
+            width: 100%;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    button:hover {
+            background-color: #0056b3;
+        }
+    .results {
+            background-color: #e9f7ef;
+            padding: 15px;
+            border: 1px solid #d4edda;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+    
+</style>
+<div class="container">
+    <h1>Model2 Calculator</h1>
+    <form method="POST">
+    <label>Nikshay ID (8–10 digits):</label>
+    <input type="text" name="nikshay_id" pattern="\d{8,10}" value="{{ nikshay_id }}" required>
+         
+    <label>District:</label>
+    <select name="district" required>
+        <option value="">Select District</option>
+        {% for d in districts %}
+            <option value="{{ d }}" {% if d == district %}selected{% endif %}>{{ d }}</option>
+        {% endfor %}
+    </select>
+    <br>
+
+    <label>Diagnosing Facility:</label>
+    <select name="facility" required>
+        <option value="">Select Facility</option>
+        {% for f in facilities %}
+            <option value="{{ f }}" {% if f == facility %}selected{% endif %}>{{ f }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <label>Respiratory Rate:</label>
+    <input type="number" name="respiratory_rate" step="0.1" value="{{ respiratory_rate }}" required>
+
+    <label>BMI:</label>
+    <input type="number" name="bmi" step="0.1" value="{{ bmi }}" required>
+
+    <label>Oxygen Saturation (%):</label>
+    <input type="number" name="oxygen_saturation" step="0.1" value="{{ oxygen_saturation }}" required>
+
+    <label>Unable to Stand:</label>
+    <select name="unable_to_stand" required>
+        <option value="no" {% if request.form.unable_to_stand == 'no' %}selected{% endif %}>No</option>
+        <option value="yes" {% if request.form.unable_to_stand == 'yes' %}selected{% endif %}>Yes</option>
+    </select>
+
+    <label>Leg Swelling:</label>
+    <select name="leg_swelling" required>
+        <option value="no" {% if request.form.leg_swelling == 'no' %}selected{% endif %}>No</option>
+        <option value="yes" {% if request.form.leg_swelling == 'yes' %}selected{% endif %}>Yes</option>
+    </select>
+
+    <button type="submit">Predict</button>
+    </form>
+    {% if result_early is not none %}
+        <div class="results">
+            <h3>Results</h3>
+            <p><strong>Early Death Probability:</strong> {{ result_early }}%</p>
+            <p><strong>Overall Death Probability:</strong> {{ result_overall }}%</p>
+            <p><strong>Early Death (with Loss to Follow-Up):</strong> {{ result_ltfu }}%</p>
+            <p><strong>Overall Death (with Loss to Follow-Up):</strong> {{ result_overall_ltfu }}%</p>
+        </div>
+</div>
+    {% endif %}
+{% endblock %}

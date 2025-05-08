@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TB Risk Calculators</title>
+    <style>
+        body { display: flex; margin: 0; font-family: Arial, sans-serif; }
+        .sidebar {
+            width: 220px;
+            background-color: #6981d9;
+            color: white;
+            height: 200vh;
+            padding: 20px;
+        }
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <a href="{{ url_for('model1') }}">Model1 Calculator</a>
+        <a href="{{ url_for('model2') }}">Model2 Calculator</a>
+      
+    </div>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
